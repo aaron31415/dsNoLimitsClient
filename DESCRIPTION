@@ -36,3 +36,6 @@ Suggests:
     spelling
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/
+Remotes:
+    manuhuth/dsNoLimits,
+    manuhuth/NoLimitsR

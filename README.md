@@ -75,4 +75,4 @@ DataSHIELD server will follow. See [NEWS.md](NEWS.md).
 
 ## License
 
-MIT. See [LICENSE.md](LICENSE.md).
+MIT. See [LICENSE](LICENSE).

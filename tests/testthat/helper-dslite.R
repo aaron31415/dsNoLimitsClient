@@ -38,8 +38,10 @@ ds_lite_conns <- function(tables,
 }
 
 # DSLite applies server options by pasting `name=value` into options() and
-# parsing it, so a character value needs its own inner quotes.
-.q <- function(x) paste0('"', x, '"')
+# parsing it, so a character value needs its own inner quotes. Backslashes are
+# forward-slashed first: a Windows temp path like C:\Users\... would otherwise
+# parse as the invalid escape \U, and forward-slash paths work on every platform.
+.q <- function(x) paste0('"', gsub("\\\\", "/", x), '"')
 
 # The data owner's DP settings, shared by every DP test file (each test file has
 # its own environment, so this must live in a helper to be visible to all).

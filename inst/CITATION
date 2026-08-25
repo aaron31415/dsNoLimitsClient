@@ -1,0 +1,61 @@
+citHeader("To cite dsNoLimitsClient in publications use the package citation together with the DataSHIELD methods references and the NoLimits.jl engine.")
+
+bibentry(
+  bibtype = "Manual",
+  header  = "To cite the dsNoLimitsClient package:",
+  other   = unlist(citation(auto = meta), recursive = FALSE)
+)
+
+bibentry(
+  bibtype = "Manual",
+  header  = "To cite the NoLimits.jl estimation engine:",
+  title   = "NoLimits.jl: Nonlinear Mixed-Effects Analysis of Longitudinal Data",
+  author  = person("Manuel", "Huth"),
+  year    = "2026",
+  note    = "Julia package",
+  url     = "https://github.com/manuhuth/NoLimits.jl"
+)
+
+bibentry(
+  bibtype = "Article",
+  header  = "To cite the DataSHIELD infrastructure and its disclosure controls:",
+  title   = "DataSHIELD: taking the analysis to the data, not the data to the analysis",
+  author  = c(person("Amadou", "Gaye"), person("Yannick", "Marcon"),
+              person("Julia", "Isaeva"), person("Paul R.", "Burton")),
+  journal = "International Journal of Epidemiology",
+  year    = "2014",
+  volume  = "43",
+  number  = "6",
+  pages   = "1929--1944",
+  doi     = "10.1093/ije/dyu188"
+)
+
+bibentry(
+  bibtype = "Article",
+  title   = "DataSHIELD - New Directions and Dimensions",
+  author  = c(person("Rebecca C.", "Wilson"), person("Oliver W.", "Butters"),
+              person("Demetris", "Avraam"), person("Jonathan", "Baker"),
+              person("Jonathan A.", "Tedds"), person("Andrew", "Turner"),
+              person("Madeleine", "Murtagh"), person("Paul R.", "Burton")),
+  journal = "Data Science Journal",
+  year    = "2017",
+  volume  = "16",
+  number  = "21",
+  pages   = "1--21",
+  doi     = "10.5334/dsj-2017-021"
+)
+
+bibentry(
+  bibtype = "Article",
+  title   = "DataSHIELD: mitigating disclosure risk in a multi-site federated analysis platform",
+  author  = c(person("Demetris", "Avraam"), person("Rebecca C.", "Wilson"),
+              person("Noemi", "Aguirre Chan"), person("Soumya", "Banerjee"),
+              person("Tom R. P.", "Bishop"), person("Oliver", "Butters"),
+              person("Tim", "Cadman"), person("Paul R.", "Burton")),
+  journal = "Bioinformatics Advances",
+  year    = "2025",
+  volume  = "5",
+  number  = "1",
+  pages   = "1--21",
+  doi     = "10.1093/bioadv/vbaf046"
+)

@@ -1,0 +1,35 @@
+Package: dsNoLimitsClient
+Title: 'DataSHIELD' Client-Side Nonlinear Mixed-Effects Analysis
+Version: 0.0.5.9000
+Date: 2026-08-25
+Authors@R:
+    person("Manuel", "Huth", , "manuel.huth@uni-bonn.de", role = c("aut", "cre"))
+Description: 'DataSHIELD' 'client-side' functions that fit nonlinear
+    mixed-effects models to longitudinal data held on several 'server-side'
+    nodes by driving a federated optimisation over per-site marginal
+    log-likelihoods and gradients, giving estimates and Wald standard errors
+    identical to a pooled analysis without any individual-level data leaving
+    the servers.
+License: LGPL (>= 3)
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1.0),
+    DSI (>= 1.7.1)
+Imports:
+    cli,
+    jsonlite,
+    methods,
+    stats
+Suggests:
+    DSLite,
+    dsNoLimits,
+    JuliaConnectoR,
+    NoLimitsR,
+    testthat (>= 3.0.0),
+    withr,
+    spelling
+Config/testthat/edition: 3
+Additional_repositories: https://cran.obiba.org/

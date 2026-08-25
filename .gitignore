@@ -1,0 +1,8 @@
+*.tar.gz
+*.Rcheck/
+.Rproj.user/
+.Rhistory
+.RData
+*.Rproj
+PLAN.md
+PROGRESS.md

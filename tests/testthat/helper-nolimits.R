@@ -88,13 +88,29 @@ nlc_sim_split <- function(d = nlc_sim_data(), sizes = c(5L, 10L, 15L)) {
                   paste0("u", seq_along(sizes)))
 }
 
+# TRUE only if NoLimits actually boots: Julia present AND NoLimits.jl installed
+# and loadable. Cached so booting is attempted once. On CI, where no Julia /
+# NoLimits environment is provisioned, this is FALSE and the Julia tiers skip
+# instead of erroring.
+.nlc_ready <- local({
+  cached <- NULL
+  function() {
+    if (is.null(cached)) {
+      cached <<- isTRUE(tryCatch(
+        requireNamespace("NoLimitsR", quietly = TRUE) &&
+          requireNamespace("JuliaConnectoR", quietly = TRUE) &&
+          isTRUE(JuliaConnectoR::juliaSetupOk()) &&
+          !is.null(NoLimitsR::nolimits()),
+        error = function(e) FALSE))
+    }
+    cached
+  }
+})
+
 nlc_skip_no_julia <- function() {
   skip_on_cran()
   skip_if_not_installed("dsNoLimits")
-  skip_if_not_installed("NoLimitsR")
-  skip_if_not(requireNamespace("JuliaConnectoR", quietly = TRUE) &&
-                isTRUE(JuliaConnectoR::juliaSetupOk()),
-              "Julia / NoLimitsR not available")
+  skip_if_not(.nlc_ready(), "Julia / NoLimits not available")
 }
 
 ## ---------------------------------------------------------------- oracle ----
@@ -108,6 +124,7 @@ nlc_skip_no_julia <- function() {
 .nlc_cache <- new.env(parent = emptyenv())
 
 nlc_dm <- function(d, model = NLDS_TEST_MODEL) {
+  nlc_skip_no_julia()
   nl <- NoLimitsR::nolimits()
   nl$DataModel(NoLimitsR::nl_model(model), NoLimitsR::nl_data(d),
                primary_id = NoLimitsR::jl_sym("ID"),
@@ -119,6 +136,7 @@ nlc_dm <- function(d, model = NLDS_TEST_MODEL) {
 # single-process fit_model(dm, MAP()) optimises - the whole point of the
 # federated split being tested.
 nlc_objgrad <- function(dm, theta, estimator = "laplace", ghq.level = 1L) {
+  nlc_skip_no_julia()
   dsNoLimits:::.nlds_helpers()
   flat <- as.numeric(dsNoLimits:::.nlds_fun("nlds_objgrad")(
     dm, as.numeric(theta),
@@ -136,6 +154,7 @@ nlc_objgrad <- function(dm, theta, estimator = "laplace", ghq.level = 1L) {
 # Pooled fit, memoised on `key` because a fit costs tens of seconds.
 nlc_pooled <- function(d, estimator = "laplace", ghq.level = 1L, key = NULL,
                        model = NLDS_TEST_MODEL) {
+  nlc_skip_no_julia()
   key <- paste(key %||% deparse(substitute(d)), estimator, ghq.level)
   if (!is.null(.nlc_cache[[key]])) return(.nlc_cache[[key]])
   nl <- NoLimitsR::nolimits()
@@ -162,6 +181,7 @@ nlc_pooled <- function(d, estimator = "laplace", ghq.level = 1L, key = NULL,
 # natural-scale parameters, named.
 nlc_mcem_pooled <- function(d, sample.schedule = 100L, outer.iters = 15L,
                             seed = 20260824L, key = NULL) {
+  nlc_skip_no_julia()
   key <- paste("mcem", key %||% deparse(substitute(d)), sample.schedule,
                outer.iters, seed)
   if (!is.null(.nlc_cache[[key]])) return(.nlc_cache[[key]])
@@ -191,6 +211,7 @@ nlc_mcem_pooled <- function(d, sample.schedule = 100L, outer.iters = 15L,
 # federated matches this only up to Monte-Carlo noise.
 nlc_saem_pooled <- function(d, sample.schedule = 100L, outer.iters = 20L,
                             seed = 20260824L, key = NULL) {
+  nlc_skip_no_julia()
   key <- paste("saem", key %||% deparse(substitute(d)), sample.schedule,
                outer.iters, seed)
   if (!is.null(.nlc_cache[[key]])) return(.nlc_cache[[key]])

@@ -8,7 +8,8 @@ giving estimates and Wald standard errors identical to a pooled analysis without
 any individual-level data leaving the servers.
 
 This is the package an analyst installs. Each node must have the server package
-`dsNoLimits` installed and its methods permitted.
+[`dsNoLimits`](https://github.com/manuhuth/dsNoLimits) installed and its methods
+permitted.
 
 ## Usage
 
@@ -74,4 +75,4 @@ DataSHIELD server will follow. See [NEWS.md](NEWS.md).
 
 ## License
 
-LGPL (>= 3).
+MIT. See [LICENSE.md](LICENSE.md).

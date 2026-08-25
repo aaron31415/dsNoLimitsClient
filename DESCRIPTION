@@ -10,7 +10,10 @@ Description: 'DataSHIELD' 'client-side' functions that fit nonlinear
     log-likelihoods and gradients, giving estimates and Wald standard errors
     identical to a pooled analysis without any individual-level data leaving
     the servers.
-License: LGPL (>= 3)
+License: MIT + file LICENSE
+URL: https://github.com/manuhuth/dsNoLimitsClient,
+    https://github.com/manuhuth/dsNoLimits
+BugReports: https://github.com/manuhuth/dsNoLimitsClient/issues
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE)

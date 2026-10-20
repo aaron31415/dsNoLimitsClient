@@ -53,6 +53,11 @@
 #' @param data a character string, the name of a server-side data frame.
 #' @param id.col a character string, the subject identifier column of `data`.
 #' @param time.col a character string, the time column of `data`.
+#' @param evid.col `NULL` (the default) for data without dose events, or a
+#'   character string naming the event-identifier column of a NONMEM-style
+#'   event table (`EVID` 0 = observation, 1 = dose, 2 = reset; dose columns
+#'   `AMT`, `RATE` and `CMT`). Needed for ODE models with doses or infusions
+#'   given as events.
 #' @param estimator one of `"laplace"`, `"focei"`, `"ghq"`, `"pooled"`,
 #'   `"mle"`, `"map"`, `"mcem"` or `"saem"`. `"mle"` and `"map"` are for models
 #'   with NO random effects and fail on any other model. `"mcem"` and `"saem"` are
@@ -121,7 +126,7 @@
 #' }
 #' @export
 ds.nolimitsFit <- function(model = NULL, data = NULL,
-                           id.col = "ID", time.col = "t",
+                           id.col = "ID", time.col = "t", evid.col = NULL,
                            estimator = c("laplace", "focei", "ghq", "pooled",
                                          "mle", "map", "mcem", "saem"),
                            ghq.level = 1L,
@@ -174,6 +179,7 @@ ds.nolimitsFit <- function(model = NULL, data = NULL,
   .check_name(data, "data")
   .check_name(id.col, "id.col")
   .check_name(time.col, "time.col")
+  if (!is.null(evid.col)) .check_name(evid.col, "evid.col")
   .check_name(newobj, "newobj")
   ghq.level <- .check_count(ghq.level, "ghq.level", 1L, 9L)
   max.rounds <- .check_count(max.rounds, "max.rounds", 1L, 100000L)
@@ -223,6 +229,8 @@ ds.nolimitsFit <- function(model = NULL, data = NULL,
   } else {
     call("nolimitsPrepStringDS", data, .ds_encode(model), id.col, time.col)
   }
+  # Only added when used, so calls without events are unchanged.
+  if (!is.null(evid.col)) cally$evid.col <- evid.col
   # cally is always a call object, so use the explicit expression form: plain
   # datashield.assign() dispatches on the value's type and would misroute a call
   # bound to a variable. No behaviour change today; removes a latent misdispatch.
